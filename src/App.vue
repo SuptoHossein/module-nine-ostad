@@ -1,30 +1,70 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
   <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+    <div v-if="!loggedIn">
+        <div class="row">
+            <div class="col-6 offset-3 mt-5">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Login Form</h2>
+                    </div>
+                    <div class="card-body">
+                        <form @submit.prevent="login">
+                            <div class="form-group">
+                                <label for="username">Username/Email:</label>
+                                <input type="text" class="form-control" id="username" v-model="usernameOrEmail" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password:</label>
+                                <input type="password" class="form-control" id="password" v-model="password" required/>
+                            </div>
+                            <div class="form-group mt-2">
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <div v-if="loggedIn">
+        <div class="row">
+            <div class="mt-5 col-6 offset-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Welcome to the Dashboard</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>Username/Email: {{ usernameOrEmail }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+<script setup>
+import {ref} from 'vue';
+
+const usernameOrEmail = ref('')
+const password = ref('')
+const loggedIn = ref(false)
+const login = () => {
+  if (usernameOrEmail.value == '') {
+    alert('Username/Email is required !')
+  }
+  if (password.value == '') {
+    alert('Password is required !')
+  }
+  if (usernameOrEmail.value && password.value) {
+    loggedIn.value = true;
+  }
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+</script>
